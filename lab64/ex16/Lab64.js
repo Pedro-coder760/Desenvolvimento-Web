@@ -8,6 +8,16 @@ const port = 3000;
 const server = http.createServer((req, res) => {
     // Define as rotas
     if (req.url === '/') {
+        let body = '';
+
+    req.on('data', chunk => {
+        body += chunk.toString(); // Converte Buffer para string
+    });
+
+    req.on('end', () => {
+        console.log(body); // Exibe os dados recebidos no console
+        res.end('Dados recebidos');
+    });
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/html');
         res.end('<h1>Página Inicial</h1>');
